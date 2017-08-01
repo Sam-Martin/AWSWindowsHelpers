@@ -7,8 +7,8 @@ Depends upon the AWSTestHelper module
 # Example
 
 ```
-Import-Module .\AWSTestHelper.psd1 -Force
-Import-module ..\AWSWindowsHelpers\AWSWindowsHelpers.psd1 -Force
+Import-Module AWSTestHelper
+Import-module AWSWindowsHelpers
 New-AWSTestEnvironmentStack -Region eu-west-1 -ID Default
 Wait-AWSTestEnvironmentStackCreation -ID Default -Region eu-west-1 
 $StackOutputs = Get-AWSTestEnvironmentStackOutputs -ID Default -Region eu-west-1

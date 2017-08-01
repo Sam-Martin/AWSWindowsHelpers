@@ -40,5 +40,4 @@
     Send-SSMCommand -DocumentName "AWS-RunPowerShellScript" -Parameter @{commands=[string]$UserData} -InstanceId $InstanceID -Region $Region
 
     Write-Verbose "Executed SSM command to update Windows instance and shutdown upon completion"
-    return $EC2Instance
 }
