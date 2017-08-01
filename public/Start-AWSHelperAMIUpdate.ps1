@@ -1,4 +1,4 @@
-﻿function Update-WindowsAMI{
+﻿function Start-AWSHelperAMIUpdate{
     Param(
         [Parameter(Mandatory=$true)]
         $ID,
@@ -8,33 +8,21 @@
         $Region,
         [Parameter(Mandatory=$true)]
         $SubnetId,
+        [Parameter(Mandatory=$true)]
+        $InstanceProfileName,
         $InstanceType = "m4.large",
         $KeyName
     )
     
-    $UserData = {
-        if($PSVersionTable.PSVersion.Major -lt 5){
-            Set-ExecutionPolicy Unrestricted -Force
-            iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1')) 
-            choco install powershell -y
-            Restart-Computer -Force
-        }
-        Install-PackageProvider Nuget -Force
-        Install-Module PSWindowsUpdate -Force
-        if(!(Get-WUList)){
-            Get-WUInstall -AcceptAll -AutoReboot | Out-File C:\PSWindowsUpdate.log
-        }else{
-            Stop-Computer -Force
-        }
-    }
 
     $EC2InstanceParams = @{
         InstanceType = $InstanceType
         ImageId = $AMIID
         SubnetId = $SubnetId
         Region = $Region
-        UserData =  [Convert]::ToBase64String([System.Text.Encoding]::Unicode.GetBytes("<powershell>`n$UserData`n</powershell>"))
+        #UserData =  [Convert]::ToBase64String([System.Text.Encoding]::Unicode.GetBytes("<powershell>`n$UserData`n</powershell>"))
         KeyName = $KeyName
+        InstanceProfile_Name = $InstanceProfileName 
     }
 
     
