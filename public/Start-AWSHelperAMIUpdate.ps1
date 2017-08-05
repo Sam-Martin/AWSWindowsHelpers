@@ -33,6 +33,6 @@
     New-EC2Tag -Resource $EC2Instance.InstanceId -Tag @{Key="Name";Value="PowerShellAWSTestInstance-$ID-$(Get-Date -F "yyyy-MM-dd-HH-mm")"} -Region $Region
     New-EC2Tag -Resource $EC2Instance.InstanceId -Tag @{Key="PowerShellAWSTestHelperID";Value=$ID} -Region $Region
 	
-    Write-Verbose "Created New Instance $($EC2Instance.InstanceId) from $AMIID, patching will occur (potentially with multiple reboots) and then the instance will stop"
+    Write-Verbose "Created New Instance $($EC2Instance.InstanceId) from $AMIID"
     return $EC2Instance
 }

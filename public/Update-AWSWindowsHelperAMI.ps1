@@ -19,12 +19,13 @@
             Write-Error $_.exception.message
         }
 
-        if($PSVersionTable.PSVersion.Major -lt 5){
-            Set-ExecutionPolicy Unrestricted -Force
-            iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1')) 
-            choco install powershell -y
-            Restart-Computer -Force -ErrorAction SilentlyContinue
-        }
+        # Install PSWindowsUpdate using Chocolatey
+        Set-ExecutionPolicy Unrestricted -Force
+        iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1')) 
+        choco source add -n=chocolatey -s="https://chocolatey.org/api/v2/" -y
+        choco install pswindowsupdate -y
+        
+
         Install-PackageProvider Nuget -Force
         Install-Module PSWindowsUpdate -Force
         if(Get-WUList){

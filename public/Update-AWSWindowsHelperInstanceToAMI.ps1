@@ -12,9 +12,9 @@
     
     Wait-AWSWindowsHelperAMIToComplete -AMIID $OldImageID -Region $Region
     $PatchInstance = Start-AWSHelperAMIUpdate -ID $TestStackID -AMIID $OldImageID -Region $Region -SubnetId $StackOutputs.PublicSubnetID -InstanceProfileName $StackOutputs.SSMInstanceProfileID
-    Wait-AWSWindowsHelperInstanceReady -InstanceID $PatchInstance.InstanceId -region $Region
     Unregister-EC2Image -ImageId $OldImageID
-
+    Wait-AWSWindowsHelperInstanceReady -InstanceID $PatchInstance.InstanceId -region $Region
+    
     Update-AWSWindowsHelperAMI -InstanceID $PatchInstance.InstanceId -Region $Region
     Wait-AWSWindowsHelperInstanceToStop -Region $Region -InstanceID $PatchInstance.InstanceId 
     
