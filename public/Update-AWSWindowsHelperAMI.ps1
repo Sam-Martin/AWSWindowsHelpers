@@ -25,9 +25,6 @@
         choco source add -n=chocolatey -s="https://chocolatey.org/api/v2/" -y
         choco install pswindowsupdate -y
         
-
-        Install-PackageProvider Nuget -Force
-        Install-Module PSWindowsUpdate -Force
         if(Get-WUList){
             Write-Host "Updates required, installing"
             Get-WUInstall -AcceptAll -AutoReboot | Out-File C:\PSWindowsUpdate.log
