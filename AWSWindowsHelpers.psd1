@@ -12,7 +12,7 @@
 RootModule = 'AWSWindowsHelpers.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.1.1'
+ModuleVersion = '1.1.2'
 
 # ID used to uniquely identify this module
 GUID = 'c5490685-e10d-4e3a-bcc5-9356bd932437'

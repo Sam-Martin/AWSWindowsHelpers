@@ -18,7 +18,7 @@
     Update-AWSWindowsHelperAMI -InstanceID $PatchInstance.InstanceId -Region $Region
     Wait-AWSWindowsHelperInstanceToStop -Region $Region -InstanceID $PatchInstance.InstanceId 
     
-    $UpdateImageID = New-EC2Image -InstanceId $PatchInstance.InstanceId -Name $AMIName -Region $Region
+    $UpdateImageID = New-EC2Image -InstanceId $PatchInstance.InstanceId -Name $NewAMIName -Region $Region
     Wait-AWSWindowsHelperAMIToComplete -AMIID $ImageID -Region $Region
     Remove-AWSTestEnvironmentStack -Region $Region -ID $TestStackID -TerminateInstances -Confirm:$false
     Return $UpdateImageID

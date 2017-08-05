@@ -23,8 +23,9 @@
         Set-ExecutionPolicy Unrestricted -Force
         iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1')) 
         choco source add -n=chocolatey -s="https://chocolatey.org/api/v2/" -y
+        choco source add -n=psgallery -s="https://www.powershellgallery.com/api/v2/" -y
         choco install pswindowsupdate -y
-        
+        import-module C:\ProgramData\chocolatey\lib\PSWindowsUpdate\PSWindowsUpdate.psd1
         if(Get-WUList){
             Write-Host "Updates required, installing"
             Get-WUInstall -AcceptAll -AutoReboot | Out-File C:\PSWindowsUpdate.log
