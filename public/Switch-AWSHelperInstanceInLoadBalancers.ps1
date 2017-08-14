@@ -1,9 +1,9 @@
 ﻿<#
     .EXAMPLE
-        Switch-AWSHelperReplacementInstanceInLoadBalancers -CurrentInstanceID i-0210e383e3d655d40 -ReplacementInstanceID i-0085c230708198b6f -Region $Region -confirm:$false -verbose
-        Switch-AWSHelperReplacementInstanceInLoadBalancers -CurrentInstanceID i-0085c230708198b6f -ReplacementInstanceID i-0210e383e3d655d40 -Region $Region -confirm:$false -verbose
+        Switch-AWSHelperInstanceInLoadBalancerss -CurrentInstanceID i-0210e383e3d655d40 -ReplacementInstanceID i-0085c230708198b6f -Region $Region -confirm:$false -verbose
+        Switch-AWSHelperInstanceInLoadBalancers -CurrentInstanceID i-0085c230708198b6f -ReplacementInstanceID i-0210e383e3d655d40 -Region $Region -confirm:$false -verbose
 #>
-function Switch-AWSHelperReplacementInstanceInLoadBalancers{
+function Switch-AWSHelperInstanceInLoadBalancers{
     [CmdletBinding(SupportsShouldProcess=$true)]
     param(
         [Parameter(Mandatory=$true)]
