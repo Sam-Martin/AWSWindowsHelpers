@@ -1,6 +1,8 @@
 ﻿function Update-AWSWindowsHelperInstanceToAMI {
     param(
+        [parameter(Mandatory=$True)]
         [string]$InstanceID,
+        [parameter(Mandatory=$True)]
         [string]$NewAMIName="AMIUpdated-$(Get-Date -Format 'yyyy-MM-dd-HH-mm-ss')",
         [string]$TestStackID='Default',
         [string]$Region,

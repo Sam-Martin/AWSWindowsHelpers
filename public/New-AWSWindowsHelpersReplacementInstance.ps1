@@ -8,6 +8,10 @@ function New-AWSWindowsHelpersReplacementInstance {
         [string]$AMIID,
         [parameter(Mandatory=$true)]
         [string]$InstanceIDToReplace,
+        # Optional keyname to launch the EC2 Instance with
+        [string]$KeyName,
+        # Use this switch to launch the instance with a security group that does not allow any comunication with the outside world 
+        #   (otherwise the originating EC2 Instance's security groups are used)
         [switch]$BlackHoleSecurityGroup,
         [parameter(Mandatory=$true)]
         [string]$Region
@@ -23,6 +27,10 @@ function New-AWSWindowsHelpersReplacementInstance {
         EbsOptimized = $InstanceToReplace.EbsOptimized
         TagSpecification = @{ResourceType="Instance";Tags=$InstanceToReplace.Tag}
         Region = $Region
+    }
+
+    if($KeyName){
+        $NewInstanceParams.KeyName = $KeyName
     }
 
     if($BlackHoleSecurityGroup){

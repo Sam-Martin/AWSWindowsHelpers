@@ -23,7 +23,7 @@ $UpdatedAMIID = Update-AWSWindowsHelperInstanceToAMI -InstanceID $CurrentInstanc
 $UpdatedInstance = New-AWSWindowsHelpersReplacementInstance -AMIID $UpdatedAMI -InstanceIDToReplace $CurrentInstanceID -BlackHoleSecurityGroup -Region $region
 
 # Wait for the new (patched) instance to be reachable.
-Wait-AWSWindowsHelperInstanceReady -InstanceID $UpdatedInstanceID.InstanceId -Region $Region
+Wait-AWSWindowsHelperInstanceReady -InstanceID $UpdatedInstance.InstanceId -Region $Region
 
 # Give the old unpatched instance the black hole security group, and the new patched instance the security groups the unpatched instance had
 Switch-AWSHelperInstanceSecurityGroups -CurrentInstanceID $CurrentInstanceID -ReplacementInstanceID $UpdatedInstance.InstanceId -Region $Region
