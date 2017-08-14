@@ -11,7 +11,8 @@
         [Parameter(Mandatory=$true)]
         $InstanceProfileName,
         $InstanceType = "m4.large",
-        $KeyName
+        # Optional keyname to launch the EC2 Instance with
+        [string]$KeyName
     )
     
 

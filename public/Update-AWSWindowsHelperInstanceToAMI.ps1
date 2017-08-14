@@ -5,6 +5,8 @@
         [parameter(Mandatory=$True)]
         [string]$NewAMIName="AMIUpdated-$(Get-Date -Format 'yyyy-MM-dd-HH-mm-ss')",
         [string]$TestStackID='Default',
+        # Optional keyname to launch the EC2 Instance with
+        [string]$KeyName,
         [string]$Region,
         # Cleans up test vpc etc automatically.
         [switch]$AutoCleanup
@@ -15,8 +17,19 @@
     $StackOutputs = Get-AWSTestEnvironmentStackOutputs -ID $TestStackID -Region $Region -ErrorAction Stop
     
     Wait-AWSWindowsHelperAMIToComplete -AMIID $OldImageID -Region $Region -ErrorAction Stop
-    $PatchInstance = Start-AWSHelperAMIUpdate -ID $TestStackID -AMIID $OldImageID -Region $Region -SubnetId $StackOutputs.PublicSubnetID -InstanceProfileName $StackOutputs.SSMInstanceProfileID
-    Unregister-EC2Image -ImageId $OldImageID
+
+    $Params = @{
+        ID = $TestStackID
+        AMIID = $OldImageID
+        Region = $Region
+        SubnetId = $StackOutputs.PublicSubnetID
+        InstanceProfileName = $StackOutputs.SSMInstanceProfileID
+    }
+    if($KeyName){
+        $Params.Add('KeyName',$KeyName)
+    }
+    $PatchInstance = Start-AWSHelperAMIUpdate @params
+    Unregister-EC2Image -ImageId $OldImageID -region $Region
     Wait-AWSWindowsHelperInstanceReady -InstanceID $PatchInstance.InstanceId -region $Region
     
     Update-AWSWindowsHelperAMI -InstanceID $PatchInstance.InstanceId -Region $Region -ErrorAction Stop
