@@ -1,4 +1,8 @@
-﻿function New-AWSWindowsHelpersReplacementInstance {
+﻿<#
+    .EXAMPLE
+        New-AWSWindowsHelpersReplacementInstance -Region eu-west-1 -InstanceIDToReplace i-0210e383e3d655d40 -AMIID ami-62798c1b -BlackHoleSecurityGroup
+#>
+function New-AWSWindowsHelpersReplacementInstance {
     param(
         [parameter(Mandatory=$true)]
         [string]$AMIID,
@@ -36,10 +40,4 @@
     $NewEC2Instance = (Get-EC2Instance -Filter $ReservationFilter -Region $Region)
     $NewEC2Instance = $NewEC2Instance.Instances[0]
     return $NewEC2Instance
-    #return $InstanceToReplace
 }
-
-$region = "eu-west-1"
-$InstanceIDToReplace = 'i-0210e383e3d655d40'
-$AMIID = 'ami-62798c1b'
-$NewInstance = New-AWSWindowsHelpersReplacementInstance -Region eu-west-1 -InstanceIDToReplace $InstanceIDToReplace -AMIID $AMIID -BlackHoleSecurityGroup
