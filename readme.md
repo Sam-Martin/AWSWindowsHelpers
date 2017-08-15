@@ -6,7 +6,7 @@ These cmdlets have been created based primarily on requirements I (Sam Martin) h
 
 
 # Dependencies
-Depends upon the AWSTestHelper module
+Depends upon the [AWSTestHelper](https://github.com/Sam-Martin/AWSTestHelper) module
 
 # Usage
 You can install from the [PowerShell Gallery](https://www.powershellgallery.com/packages/AWSWindowsHelpers/) using the following command.
