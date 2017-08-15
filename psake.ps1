@@ -3,6 +3,7 @@
 Properties {
     # Find the build folder based on build system
     $ProjectRoot = $ENV:BHProjectPath
+    $ModuleRoot = $ENV:BHModulePath
     if(-not $ProjectRoot)
     {
         $ProjectRoot = $PSScriptRoot
@@ -39,14 +40,11 @@ Task Deploy -Depends Init {
     }
     "New Version: $NewVersion"
 
-    $FunctionList = @((Get-Module $ManifestPath -ListAvailable).ExportedCommands.Values.Name)
-
+   
+    # Update function list & manifest version
+    $FunctionList = @( Get-ChildItem -Path $ModuleRoot\Public\*.ps1 -ErrorAction SilentlyContinue ).BaseName
     Update-ModuleManifest -Path $ManifestPath -ModuleVersion $NewVersion -FunctionsToExport $functionList
-    (Get-Content -Path $ManifestPath) -replace "PSGet_$Env:BHProjectName", "$Env:BHProjectName" | Set-Content -Path $ManifestPath
-    (Get-Content -Path $ManifestPath) -replace 'NewManifest', "$Env:BHProjectName" | Set-Content -Path $ManifestPath
-    (Get-Content -Path $ManifestPath) -replace 'FunctionsToExport = ', 'FunctionsToExport = @(' | Set-Content -Path $ManifestPath -Force
-    (Get-Content -Path $ManifestPath) -replace "$($FunctionList[-1])'", "$($FunctionList[-1])')" | Set-Content -Path $ManifestPath -Force
-
+    
     $Params = @{
         Path = $ProjectRoot
         Force = $true
