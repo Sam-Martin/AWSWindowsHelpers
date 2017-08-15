@@ -22,8 +22,12 @@
         SubnetId = $SubnetId
         Region = $Region
         #UserData =  [Convert]::ToBase64String([System.Text.Encoding]::Unicode.GetBytes("<powershell>`n$UserData`n</powershell>"))
-        KeyName = $KeyName
+        #KeyName = $KeyName
         InstanceProfile_Name = $InstanceProfileName 
+    }
+
+    if($KeyName){
+        $EC2InstanceParams.add("KeyName",$KeyName)
     }
 
     
