@@ -26,14 +26,14 @@ The below example performs the following actions:
 3. Launches an instance from the AMI in the new VPC (`Update-AWSWindowsHelperInstanceToAMI`)
 4. Deletes the AMI (`Update-AWSWindowsHelperInstanceToAMI`)
 5. Runs an SSM command to run a powershell script which: (`Update-AWSWindowsHelperInstanceToAMI`)
-  a. Creates a scheduled task to run itself on boot.
-  b. Installs chocolatey
-  c. Installs the PSWindowsUpdate module using chocolatey (to allow compatibility with servers which do not have `Install-Module`)
-  d. Checks to see if any patches are required.
-  e. Installs any patches required.
-  f. Reboots the server
-  g. Repeats steps d-f until no more patches are required
-  h. Once no more patches are required shuts down.
+	1. Creates a scheduled task to run itself on boot.
+	2. Installs chocolatey
+	3. Installs the PSWindowsUpdate module using chocolatey (to allow compatibility with servers which do not have `Install-Module`)
+	4. Checks to see if any patches are required.
+	5. Installs any patches required.
+	6. Reboots the server
+	7. Repeats steps iv-vi until no more patches are required
+	8. Once no more patches are required shuts down.
  6. Waits until the newly launched instance has shutdown (i.e. it has completed patching) (`Update-AWSWindowsHelperInstanceToAMI`)
  7. Creates an AMI of the newly patched instance. (`Update-AWSWindowsHelperInstanceToAMI`)
  8. Launches an instance with size, subnet, tags, etc. identical to `$CurrentInstanceID` but with a security group that does not allow inbound OR outbound access to prevent it colliding in AD with the old instance (`New-AWSWindowsHelpersReplacementInstance`)
