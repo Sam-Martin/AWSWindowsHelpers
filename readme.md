@@ -1,12 +1,45 @@
-# AWS Windows Helpers
-A series of cmdlets that sit on top of the AWS PowerShell cmdlets to help with common AWS related tasks.
+# AWS Windows Helpers [![Build status](https://ci.appveyor.com/api/projects/status/1fc07ur3jd49k5cr/branch/master?svg=true)](https://ci.appveyor.com/project/Sam-Martin/awswindowshelpers/branch/master)
 
-# Depends
+A series of cmdlets that sit on top of the AWS PowerShell cmdlets to help with common AWS related tasks.
+These cmdlets have been created based primarily on requirements I (Sam Martin) have encountered while working with AWS, and are not intended to cover any specific set of scenarios beyond what I have added. 
+
+
+
+# Dependencies
 Depends upon the AWSTestHelper module
 
-# How to use
+# Usage
+You can install from the [PowerShell Gallery](https://www.powershellgallery.com/packages/AWSWindowsHelpers/) using the following command.
+
+```
+Install-Module -Name AWSWindowsHelpers
+```
 
 ## Update an EC2 instance offline and swap loadbalancers/security groups to new instance
+One major use case for this module is the offline Windows Patching of an EC2 instance. 
+This is intended to allow you to patch a manually configured instance which is a single point of failure in an AWS environment with minimal downtime.  
+Obviously, if you are able to, it is preferable to launch a newly patched instance in parallel behind a loadbalancer, and drain connections from the old instance before decommissioning it. However, this is not always possible (e.g. in manually configured AD joined environments).  
+
+The below example performs the following actions:  
+1. Creates an AMI of `$CurrentInstanceID` (`Update-AWSWindowsHelperInstanceToAMI`)
+2. Deploys a new, isolated, test VPC (`Update-AWSWindowsHelperInstanceToAMI`)
+3. Launches an instance from the AMI in the new VPC (`Update-AWSWindowsHelperInstanceToAMI`)
+4. Deletes the AMI (`Update-AWSWindowsHelperInstanceToAMI`)
+5. Runs an SSM command to run a powershell script which: (`Update-AWSWindowsHelperInstanceToAMI`)
+  a. Creates a scheduled task to run itself on boot.
+  b. Installs chocolatey
+  c. Installs the PSWindowsUpdate module using chocolatey (to allow compatibility with servers which do not have `Install-Module`)
+  d. Checks to see if any patches are required.
+  e. Installs any patches required.
+  f. Reboots the server
+  g. Repeats steps d-f until no more patches are required
+  h. Once no more patches are required shuts down.
+ 6. Waits until the newly launched instance has shutdown (i.e. it has completed patching) (`Update-AWSWindowsHelperInstanceToAMI`)
+ 7. Creates an AMI of the newly patched instance. (`Update-AWSWindowsHelperInstanceToAMI`)
+ 8. Launches an instance with size, subnet, tags, etc. identical to `$CurrentInstanceID` but with a security group that does not allow inbound OR outbound access to prevent it colliding in AD with the old instance (`New-AWSWindowsHelpersReplacementInstance`)
+ 9. Waits until that instance passes its reachability checks (`Wait-AWSWindowsHelperInstanceReady`)
+ 10. Swaps security groups between the new and old instances (black holing the old instance) (`Switch-AWSHelperInstanceSecurityGroups`)
+ 11. Swaps the new instance with the old instance in ELB and ELBv2 loadbalancers (`Switch-AWSHelperInstanceInLoadBalancers`)
 
 ```
 Import-Module AWSWindowsHelpers
@@ -31,3 +64,7 @@ Switch-AWSHelperInstanceSecurityGroups -CurrentInstanceID $CurrentInstanceID -Re
 # Remove the old unpatched instance from its loadbalancers (ELB & ELBv2) and add the new patched instance in its stead
 Switch-AWSHelperInstanceInLoadBalancers -CurrentInstanceID $CurrentInstanceID -ReplacementInstanceID $UpdatedInstance.InstanceId -Region $Region
 ```
+
+# Authors
+
+- Sam Martin (samjackmartin@gmail.com)
