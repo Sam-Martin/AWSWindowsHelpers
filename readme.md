@@ -65,6 +65,14 @@ Switch-AWSHelperInstanceSecurityGroups -CurrentInstanceID $CurrentInstanceID -Re
 Switch-AWSHelperInstanceInLoadBalancers -CurrentInstanceID $CurrentInstanceID -ReplacementInstanceID $UpdatedInstance.InstanceId -Region $Region
 ```
 
+# KMS Encryption and Decryption
+The cmdlets `Invoke-AWSWindowsHelperEncryptKMSPlaintext` and `Invoke-AWSWindowsHelperDecryptKMSPlaintext` allow you to encrypt and decrypt strings using KMS easily.
+
+```
+$encrypted = Invoke-AWSWindowsHelperEncryptKMSPlaintext -KeyID 347d96af-ea90-456d-9ca7-edecdbb46c42 -PlaintextString "hello!" -Region us-east-1
+Invoke-AWSWindowsHelperDecryptKMSPlaintext -Base64Secret $encrypted -Region us-east-1
+```
+
 # Authors
 
 - Sam Martin (samjackmartin@gmail.com)
