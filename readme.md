@@ -73,6 +73,16 @@ $encrypted = Invoke-AWSWindowsHelperEncryptKMSPlaintext -KeyID 347d96af-ea90-456
 Invoke-AWSWindowsHelperDecryptKMSPlaintext -Base64Secret $encrypted -Region us-east-1
 ```
 
+# Route 53
+
+These cmdlets make working with Route53 a bit easier in powershell.
+
+## Set-AWSWindowsHelpersR53RecordSet
+
+```
+Set-AWSWindowsHelpersR53RecordSet -HostedZoneID Z9MTZXMHP863H -RecordName testsam2017.example.com. -RecordValue "google.com" -RecordType CNAME -Verbose
+```
+
 # Authors
 
 - Sam Martin (samjackmartin@gmail.com)
