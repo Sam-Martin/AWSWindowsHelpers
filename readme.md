@@ -1,7 +1,7 @@
 # AWS Windows Helpers [![Build status](https://ci.appveyor.com/api/projects/status/1fc07ur3jd49k5cr/branch/master?svg=true)](https://ci.appveyor.com/project/Sam-Martin/awswindowshelpers/branch/master)
 
 A series of cmdlets that sit on top of the AWS PowerShell cmdlets to help with common AWS related tasks.
-These cmdlets have been created based primarily on requirements I (Sam Martin) have encountered while working with AWS, and are not intended to cover any specific set of scenarios beyond what I have added. 
+These cmdlets have been created based primarily on requirements I (Sam Martin) have encountered while working with AWS, and are not intended to cover any specific set of scenarios beyond what I have added.
 
 
 
@@ -16,11 +16,11 @@ Install-Module -Name AWSWindowsHelpers
 ```
 
 ## Update an EC2 instance offline and swap loadbalancers/security groups to new instance
-One major use case for this module is the offline Windows Patching of an EC2 instance. 
-This is intended to allow you to patch a manually configured instance which is a single point of failure in an AWS environment with minimal downtime.  
-Obviously, if you are able to, it is preferable to launch a newly patched instance in parallel behind a loadbalancer, and drain connections from the old instance before decommissioning it. However, this is not always possible (e.g. in manually configured AD joined environments).  
+One major use case for this module is the offline Windows Patching of an EC2 instance.
+This is intended to allow you to patch a manually configured instance which is a single point of failure in an AWS environment with minimal downtime.
+Obviously, if you are able to, it is preferable to launch a newly patched instance in parallel behind a loadbalancer, and drain connections from the old instance before decommissioning it. However, this is not always possible (e.g. in manually configured AD joined environments).
 
-The below example performs the following actions:  
+The below example performs the following actions:
 1. Creates an AMI of `$CurrentInstanceID` (`Update-AWSWindowsHelperInstanceToAMI`)
 2. Deploys a new, isolated, test VPC (`Update-AWSWindowsHelperInstanceToAMI`)
 3. Launches an instance from the AMI in the new VPC (`Update-AWSWindowsHelperInstanceToAMI`)
@@ -81,6 +81,14 @@ These cmdlets make working with Route53 a bit easier in powershell.
 
 ```
 Set-AWSWindowsHelpersR53RecordSet -HostedZoneID Z9MTZXMHP863H -RecordName testsam2017.example.com. -RecordValue "google.com" -RecordType CNAME -Verbose
+```
+
+# Load Balancers
+
+## Get-AWSWindowsHelperALBTraffic
+
+```
+Get-AWSWindowsHelperALBTraffic -AWSRegion eu-west-1 -ALBName app/LoadB-3M8KJGY58BE5/059338ed989e015 -StartTime (Get-Date).AddMonths(-1) -EndTime (Get-Date)
 ```
 
 # Authors
