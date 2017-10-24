@@ -30,12 +30,12 @@
     if($MaxInRange){
         New-Object psobject -Property @{
             "MegabytesUsed" = ($MetricStatistics.Datapoints.Maximum | Measure-Object -Maximum).Maximum/1MB
-            "ClusterName" = $RDSCluster
+            "ClusterName" = $RDSClusterName
         }
     }else{
         New-Object psobject -Property @{
             "BytesUsed" = $MetricStatistics
-            "ClusterName" = $RDSCluster
+            "ClusterName" = $RDSClusterName
         }
     }
 }
