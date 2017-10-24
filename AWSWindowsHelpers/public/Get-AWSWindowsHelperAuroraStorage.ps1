@@ -1,4 +1,4 @@
-﻿function Get-AWSWindowsHelperALBTraffic{
+﻿function Get-AWSWindowsHelperAuroraStorage{
     param(
         [parameter(Mandatory=$True)]
         [string]$AWSRegion,
@@ -30,13 +30,11 @@
     if($MaxInRange){
         New-Object psobject -Property @{
             "MegabytesUsed" = ($MetricStatistics.Datapoints.Maximum | Measure-Object -Maximum).Maximum/1MB
-            "Customer" = $Customer
             "ClusterName" = $RDSCluster
         }
     }else{
         New-Object psobject -Property @{
             "BytesUsed" = $MetricStatistics
-            "Customer" = $Customer
             "ClusterName" = $RDSCluster
         }
     }
