@@ -66,8 +66,26 @@ Description = 'Helper functions for working with Windows Instances on AWS'
 # NestedModules = @()
 
 # Functions to export from this module
-FunctionsToExport = 'New-AWSTestAMI,New-AWSTestSnapshots,New-AWSWindowsHelpersReplacementInstance,Restore-AWSTestWindowsInstanceFromSnapshot,Start-AWSHelperAMIUpdate,Switch-AWSHelperInstanceInLoadBalancers,Switch-AWSHelperInstanceSecurityGroups,Update-AWSWindowsHelperAMI,Update-AWSWindowsHelperInstanceToAMI,Wait-AWSWindowsHelperAMIToComplete,Wait-AWSWindowsHelperInstanceReady,Wait-AWSWindowsHelperInstanceToStop,Get-AWSWindowsHelperALBTraffic'
-
+FunctionsToExport = @(
+    "Get-AWSWindowsHelperALBTraffic",
+    "Get-AWSWindowsHelperAuroraStorage",
+    "Get-SDLWebCustomersALBTraffic",
+    "Invoke-AWSWindowsHelperDecryptKMSPlaintext",
+    "Invoke-AWSWindowsHelperEncryptKMSPlaintext",
+    "New-AWSTestAMI",
+    "New-AWSTestSnapshots",
+    "New-AWSWindowsHelpersReplacementInstance",
+    "Restore-AWSTestWindowsInstanceFromSnapshot",
+    "Set-AWSWindowsHelpersR53RecordSet",
+    "Start-AWSHelperAMIUpdate",
+    "Switch-AWSHelperInstanceInLoadBalancers",
+    "Switch-AWSHelperInstanceSecurityGroups",
+    "Update-AWSWindowsHelperAMI",
+    "Update-AWSWindowsHelperInstanceToAMI",
+    "Wait-AWSWindowsHelperAMIToComplete",
+    "Wait-AWSWindowsHelperInstanceReady",
+    "Wait-AWSWindowsHelperInstanceToStop"
+)
 # Cmdlets to export from this module
 CmdletsToExport = '*'
 
