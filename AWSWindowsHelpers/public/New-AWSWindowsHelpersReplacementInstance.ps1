@@ -25,7 +25,7 @@ function New-AWSWindowsHelpersReplacementInstance {
         #SecurityGroups = $InstanceToReplace.SecurityGroups.groupid
         SubnetId = $InstanceToReplace.SubnetId
         EbsOptimized = $InstanceToReplace.EbsOptimized
-        TagSpecification = @{ResourceType="Instance";Tags=$InstanceToReplace.Tag}
+        TagSpecification = @{ResourceType="Instance";Tags=$InstanceToReplace.Tag | ?{$_.key -notlike 'aws:*' }}
         Region = $Region
     }
 
