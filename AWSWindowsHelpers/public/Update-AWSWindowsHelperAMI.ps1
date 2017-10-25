@@ -8,16 +8,15 @@
     
     $UserData = {
         $TaskName = "AMI Windows Patching"
-        Start-Transcript -Path $Env:Temp\WindowsPatching.log -NoClobber
+        Start-Transcript -Path "$Env:Temp\WindowsPatching$(Get-Date -Format "yyyymmddhhmmss").log" -NoClobber
         if(-not $(Get-ScheduledTask -TaskName 'AMI Windows Patching')){
             try{
                 Write-Host "Attempting to create Scheduled Task '$TaskName'"
                 $STPrin = New-ScheduledTaskPrincipal -UserId "SYSTEM" -LogonType ServiceAccount
                 $STTri1 = New-ScheduledTaskTrigger -AtStartup
-                $STTri2 = New-ScheduledTaskTrigger -Once -At $(Get-Date) -RepetitionInterval "00:01:00" -RepetitionDuration $([TimeSpan]::MaxValue)
                 $STAct = New-ScheduledTaskAction -Execute "PowerShell.exe" `
                     -Argument $('-executionpolicy Bypass -NonInteractive -c "powershell -executionpolicy Bypass -NonInteractive -c '+$($MyInvocation.MyCommand.Definition)+' -verbose >>  %TEMP%\PatchingScheduledTask.log 2>&1"')
-                Register-ScheduledTask -Principal $STPrin -Trigger @($STTri1,$STTri2) -TaskName $TaskName -Action $STAct
+                Register-ScheduledTask -Principal $STPrin -Trigger @($STTri1) -TaskName $TaskName -Action $STAct
                 Write-Host "Successfully created Scheduled Task '$TaskName'"
             }catch{
                 Write-Error $_.exception.message
