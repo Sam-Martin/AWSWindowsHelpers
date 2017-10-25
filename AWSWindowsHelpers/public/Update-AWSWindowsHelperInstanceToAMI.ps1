@@ -11,7 +11,7 @@
         # Cleans up test vpc etc automatically.
         [switch]$AutoCleanup
     )
-    $OldImageID = New-EC2Image -Instance $InstanceID -Region $Region -Name "AWSTestHelperAMIPriorToUpdate-$(Get-Date -Format 'yyyy-MM-dd-HH-mm-ss')"
+    $OldImageID = New-EC2Image -Instance $InstanceID -Region $Region -Name "AWSTestHelperAMIPriorToUpdate-$(Get-Date -Format 'yyyy-MM-dd-HH-mm-ss')" -NoReboot $True
     New-AWSTestEnvironmentStack -Region $Region -ID $TestStackID -ErrorAction SilentlyContinue | Out-Null
     Wait-AWSTestEnvironmentStackCreation -ID $TestStackID -Region $Region 
     $StackOutputs = Get-AWSTestEnvironmentStackOutputs -ID $TestStackID -Region $Region -ErrorAction Stop

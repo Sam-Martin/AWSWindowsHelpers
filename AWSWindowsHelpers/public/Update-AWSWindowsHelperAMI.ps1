@@ -43,7 +43,15 @@
         Stop-Transcript
     }
 
-    $SSMCommand = Send-SSMCommand -DocumentName "AWS-RunPowerShellScript" -Parameter @{commands=[string]$UserData} -InstanceId $InstanceID -Region $Region
+    try{
+        $SSMCommand = Send-SSMCommand -DocumentName "AWS-RunPowerShellScript" -Parameter @{commands=[string]$UserData} -InstanceId $InstanceID -Region $Region
+    }catch{
+        if($_.FullyQualifiedErrorId -like "*Amazon.SimpleSystemsManagement.Model.InvalidInstanceIdException*"){
+            Write-Error "Invalid Instance ID, does the AMI have a version of the EC2 config service installed which is compatible with SSM?"
+            return
+        }
 
+        Write-Error $_.exception.message
+    }
     Write-Verbose "Executed SSM command ($($SSMCommand.CommandId)) to update Windows instance and shutdown upon completion"
 }
