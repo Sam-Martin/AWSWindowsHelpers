@@ -91,6 +91,16 @@ Set-AWSWindowsHelpersR53RecordSet -HostedZoneID Z9MTZXMHP863H -RecordName testsa
 Get-AWSWindowsHelperALBTraffic -AWSRegion eu-west-1 -ALBName app/LoadB-3M8KJGY58BE5/059338ed989e015 -StartTime (Get-Date).AddMonths(-1) -EndTime (Get-Date)
 ```
 
+## Update-AWSWindowsHelpersLoadBalancerCertificate
+
+Replaces a specific SSL certificate on all ALB and ELB load balancers for a specified region. If a ACM certificate is specified in either the original or replacement parameter ARN then the region is inferred from the ARN. If only IAM certificates ARNs are supplied a region must be given. 
+
+```
+Update-AWSWindowsHelpersLoadBalancerCertificate -originalCertARN "arn:aws:iam::123456789012:server-certificate/2017_wild_example_com" -replacementCertARN "arn:aws:acm:us-west-2:123456789012:certificate/0e460187-a4b4-452f-a88b-c1d17dfaf749"
+```
+
 # Authors
 
 - Sam Martin (samjackmartin@gmail.com)
+- Oliver Li (oliverli@hotmail.co.uk)
+- Bindu Massey (bindu.massey@hotmail.co.uk)
