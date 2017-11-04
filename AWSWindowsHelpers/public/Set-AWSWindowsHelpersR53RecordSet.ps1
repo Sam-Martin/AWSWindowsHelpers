@@ -13,7 +13,13 @@ Function Set-AWSWindowsHelpersR53RecordSet{
         [string]$RecordName,
         [string]$RecordValue,
         [string]$RecordType = 'A',
-        [switch]$Replace
+        [switch]$Replace,
+        [Parameter(ParameterSetName='ARecordAlias')]        
+        [switch]$ARecordAlias,
+        [Parameter(ParameterSetName='ARecordAlias',Mandatory=$true)]
+        [string]$AliasHostedZoneID,
+        [Parameter(ParameterSetName='ARecordAlias')]
+        [switch]$EvaluateTargetHealth
     )
     $resourceRecordSet = Get-R53ResourceRecordSet -HostedZoneID $HostedZoneID -StartRecordName $RecordName -StartRecordType $RecordType
     $MatchingResourceRecordSet = $resourceRecordSet.ResourceRecordSets | Where-Object{$_.Name -eq $RecordName} 
@@ -26,13 +32,25 @@ Function Set-AWSWindowsHelpersR53RecordSet{
         Name = $RecordName
         Type = $RecordType
         TTL = 60
-        #Weight = 0
         ResourceRecords = $RecordValue
+    }
+
+    if($ARecordAlias -and $RecordType -eq "A")
+    {
+        $UpdatedAliasTarget = [Amazon.Route53.Model.AliasTarget]@{
+            HostedZoneID = $AliasHostedZoneID
+            DNSName = $RecordValue
+            EvaluateTargetHealth  = $EvaluateTargetHealth
+        }    
+        $UpdatedResourceRecordSet.Add("AliasTarget",$UpdatedAliasTarget)
+        $UpdatedResourceRecordSet.Remove("ResourceRecords")
+        $UpdatedResourceRecordSet.Remove("TTL")
+        Write-Verbose "A Record Alias will be set using Hosted Zone ID $AliasHostedZoneID and evaluate health as $EvaluateTargetHealth"        
     }
 
     $ChangeSet = [Amazon.Route53.Model.Change]@{
         Action = "UPSERT"
-        ResourceRecordSet = $UpdatedResourceRecordSet # | ConvertTo-Json -Depth 99 | ConvertFrom-Json
+        ResourceRecordSet = $UpdatedResourceRecordSet
     }
 
     @{Old=$MatchingResourceRecordSet;New=$UpdatedResourceRecordSet}
