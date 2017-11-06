@@ -81,6 +81,10 @@ These cmdlets make working with Route53 a bit easier in powershell.
 
 ```
 Set-AWSWindowsHelpersR53RecordSet -HostedZoneID Z9MTZXMHP863H -RecordName testsam2017.example.com. -RecordValue "google.com" -RecordType CNAME -Verbose
+
+# Set a "A" Record with an Alias Target
+
+Set-AWSWindowsHelpersR53RecordSet -HostedZoneID Z9MTZXMHP863H -RecordName testsam2017.example.com. -ARecordAlias -AliasHostedZoneID "Z32O12XQLNT63H" -RecordValue "loadbalancer-dns-name-123456789.eu-west-1.elb.amazonaws.com" -Verbose
 ```
 
 # Load Balancers
