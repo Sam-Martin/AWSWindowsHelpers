@@ -9,15 +9,35 @@
 Function Set-AWSWindowsHelpersR53RecordSet{
     [cmdletbinding()]
     param(
+        [Parameter(ParameterSetName='R53RecordSet')]
+        [Parameter(ParameterSetName='ARecordAlias')]
         [string]$HostedZoneID,
+
+        [Parameter(ParameterSetName='R53RecordSet')]
+        [Parameter(ParameterSetName='ARecordAlias')]
         [string]$RecordName,
+
+        [Parameter(ParameterSetName='R53RecordSet')]
+        [Parameter(ParameterSetName='ARecordAlias')]
         [string]$RecordValue,
+
+        [Parameter(ParameterSetName='R53RecordSet')]
+        [Parameter(ParameterSetName='ARecordAlias')]
         [string]$RecordType = 'A',
-        [switch]$Replace,
+
+        [Parameter(ParameterSetName='R53RecordSet')]            
+        [int]$TTL = 60,
+
+        [Parameter(ParameterSetName='R53RecordSet')]
         [Parameter(ParameterSetName='ARecordAlias')]        
+        [switch]$Replace,
+
+        [Parameter(ParameterSetName='ARecordAlias')]
         [switch]$ARecordAlias,
+
         [Parameter(ParameterSetName='ARecordAlias',Mandatory=$true)]
         [string]$AliasHostedZoneID,
+
         [Parameter(ParameterSetName='ARecordAlias')]
         [switch]$EvaluateTargetHealth
     )
@@ -31,7 +51,7 @@ Function Set-AWSWindowsHelpersR53RecordSet{
     $UpdatedResourceRecordSet = @{
         Name = $RecordName
         Type = $RecordType
-        TTL = 60
+        TTL = $TTL
         ResourceRecords = $RecordValue
     }
 
