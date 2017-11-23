@@ -42,7 +42,7 @@ Task Deploy -Depends Init {
 
    
     # Update function list & manifest version
-    $FunctionList = @( Get-ChildItem -Path $ModuleRoot\Public\*.ps1 -ErrorAction SilentlyContinue ).BaseName
+    $FunctionList = @( Get-ChildItem -Path $ModuleRoot\Public\*.ps1 -Recurse -ErrorAction SilentlyContinue ).BaseName
     Update-ModuleManifest -Path $ManifestPath -ModuleVersion $NewVersion -FunctionsToExport $functionList
     
     $Params = @{
