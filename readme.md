@@ -103,6 +103,38 @@ Replaces a specific SSL certificate on all ALB and ELB load balancers for a spec
 Update-AWSWindowsHelpersLoadBalancerCertificate -originalCertARN "arn:aws:iam::123456789012:server-certificate/2017_wild_example_com" -replacementCertARN "arn:aws:acm:us-west-2:123456789012:certificate/0e460187-a4b4-452f-a88b-c1d17dfaf749"
 ```
 
+# CloudFormation
+
+## ConvertTo-AWSWindowsHelperCFNParameter
+
+Converts a hashtable to the Parameter data type expected by the parameter "Parameter" of the New-CFNStack cmdlet. The UsePreviousValue property is set to true for values processed by this cmdlet.
+
+```powershell
+$CFNStackParameters = @{ 
+	"AMILookupStackName" = "aws-amilookup-stack" 
+	"InstanceType" = "t2.micro"
+	"WindowsVersion" = "Windows Server 2012 R2 English 64-bit"
+	}
+
+$Params = @{
+    StackName = "cloudformation-stack-name" 
+    Parameter = $CFNStackParameters | ConvertTo-AWSWindowsHelperCFNParameter 
+    TemplateBody = $TemplateBody
+    region = "eu-west-1" 
+    EnableTerminationProtection = $true
+}
+
+CloudformationStackARN = New-CFNStack @Params
+```
+
+## New-AWSWindowsHelperCFNParameter
+
+Creates a Parameter data type object from the supplied parameters. The UsePreviousValue property is set to true by default if a value is not supplied.
+
+```powershell
+$CFNStackParameter = New-AWSWindowsHelperCFNParameter -Key "name" -Value "value" -UsePreviousValue $false
+```
+
 # Authors
 
 - Sam Martin (samjackmartin@gmail.com)
