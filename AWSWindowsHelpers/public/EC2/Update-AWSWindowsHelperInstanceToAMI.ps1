@@ -32,6 +32,8 @@
     Unregister-EC2Image -ImageId $OldImageID -region $Region
     Wait-AWSWindowsHelperInstanceReady -InstanceID $PatchInstance.InstanceId -region $Region
     
+	Write-Verbose "Sleeping for 5 minutes prior to executing SSM command in order to ensure check in"
+	Start-Sleep -s 300
     Update-AWSWindowsHelperAMI -InstanceID $PatchInstance.InstanceId -Region $Region -ErrorAction Stop
     Wait-AWSWindowsHelperInstanceToStop -Region $Region -InstanceID $PatchInstance.InstanceId 
     

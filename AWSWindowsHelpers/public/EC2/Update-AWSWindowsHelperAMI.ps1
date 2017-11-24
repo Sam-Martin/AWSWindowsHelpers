@@ -41,7 +41,7 @@
         }
         Stop-Transcript
     }
-
+	Write-Verbose "Executing SSM command to update Windows instance $($InstanceID) and shutdown upon completion"
     try{
         $SSMCommand = Send-SSMCommand -DocumentName "AWS-RunPowerShellScript" -Parameter @{commands=[string]$UserData} -InstanceId $InstanceID -Region $Region
     }catch{
@@ -52,5 +52,6 @@
 
         Write-Error $_.exception.message
     }
-    Write-Verbose "Executed SSM command ($($SSMCommand.CommandId)) to update Windows instance and shutdown upon completion"
+	Write-Verbose "Executed SSM command ($($SSMCommand.CommandId)) to update Windows instance and shutdown upon completion"
+    
 }
