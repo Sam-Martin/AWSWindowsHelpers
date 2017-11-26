@@ -127,14 +127,6 @@ $Params = @{
 CloudformationStackARN = New-CFNStack @Params
 ```
 
-## New-AWSWindowsHelperCFNParameter
-
-Creates a Parameter data type object from the supplied parameters. The UsePreviousValue property is set to true by default if a value is not supplied.
-
-```powershell
-$CFNStackParameter = New-AWSWindowsHelperCFNParameter -Key "name" -Value "value" -UsePreviousValue $false
-```
-
 # Authors
 
 - Sam Martin (samjackmartin@gmail.com)
