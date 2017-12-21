@@ -1,4 +1,4 @@
-# AWS Windows Helpers [![Build status](https://ci.appveyor.com/api/projects/status/1fc07ur3jd49k5cr/branch/master?svg=true)](https://ci.appveyor.com/project/Sam-Martin/awswindowshelpers/branch/master) [![PowerShell Gallery](https://img.shields.io/powershellgallery/v/AWSWindowsHelpers.svg)]()
+# AWS Windows Helpers [![Build status](https://ci.appveyor.com/api/projects/status/1fc07ur3jd49k5cr/branch/master?svg=true)](https://ci.appveyor.com/project/Sam-Martin/awswindowshelpers/branch/master) [![PowerShell Gallery](https://img.shields.io/powershellgallery/v/AWSWindowsHelpers.svg)]() [![PowerShell Gallery](https://img.shields.io/powershellgallery/dt/AWSWindowsHelpers.svg)]()
 
 A series of cmdlets that sit on top of the AWS PowerShell cmdlets to help with common AWS related tasks.
 These cmdlets have been created based primarily on requirements I (Sam Martin) have encountered while working with AWS, and are not intended to cover any specific set of scenarios beyond what I have added.
