@@ -127,8 +127,88 @@ $Params = @{
 CloudformationStackARN = New-CFNStack @Params
 ```
 
+# Amazon Resource Names
+The cmdlet `Get-AWSWindowsHelpersARNDetail` allows you to retrieve the values from an ARN. The values are returned as a hash table. 
+
+The names of the resource elements are returned as an array under the "resources" key. The resource ARN prior to splitting can retrieved under the "resourcedetail" key. 
+
+```powershell
+#AutoScaling Group ARN
+Get-AWSWindowsHelpersARNDetail -arn "arn:aws:autoscaling:us-east-1:123456789012:scalingPolicy:c7a27f55-d35e-4153-b044-8ca9155fc467:autoScalingGroupName/my-test-asg1:policyName/my-scaleout-policy"
+
+Name                           Value
+----                           -----
+scalingPolicy                  c7a27f55-d35e-4153-b044-8ca9155fc467
+resources                      {scalingPolicy, autoScalingGroupName, policyName}
+region                         us-east-1
+resourcedetail                 scalingPolicy:c7a27f55-d35e-4153-b044-8ca9155fc467:autoScalingGroupName/my-test-asg1:policyName/my-scaleout-policy
+resourcetype                   scalingPolicy
+service                        autoscaling
+policyName                     my-scaleout-policy
+accountid                      123456789012
+autoScalingGroupName           my-test-asg1
+partition                      aws
+
+#Certificate Manager ARN
+Get-AWSWindowsHelpersARNDetail -arn "arn:aws:acm:us-east-1:123456789012:certificate/12345678-1234-1234-1234-123456789012"
+
+Name                           Value
+----                           -----
+resources                      {certificate-id}
+region                         us-east-1
+resourcedetail                 certificate/12345678-1234-1234-1234-123456789012
+resourcetype                   certificate
+service                        acm
+certificate-id                 12345678-1234-1234-1234-123456789012
+accountid                      123456789012
+partition                      aws
+
+#Elastic Load Balancing Application Load Balancer
+Get-AWSWindowsHelpersARNDetail -arn "arn:aws:elasticloadbalancing:us-east-1:123456789012:loadbalancer/app/my-load-balancer/50dc6c495c0c9188"
+
+Name                           Value
+----                           -----
+loadbalancer-type              app
+resources                      {loadbalancer-type, loadbalancer-name, loadbalancer-id}
+loadbalancer-id                50dc6c495c0c9188
+loadbalancer-name              my-load-balancer
+region                         us-east-1
+resourcedetail                 loadbalancer/app/my-load-balancer/50dc6c495c0c9188
+resourcetype                   loadbalancer
+service                        elasticloadbalancing
+accountid                      123456789012
+partition                      aws
+
+#Elastic Load Balancing Target Group ARN
+Get-AWSWindowsHelpersARNDetail -arn "arn:aws:elasticloadbalancing:us-east-1:123456789012:targetgroup/my-targets/73e2d6bc24d8a067"
+
+Name                           Value
+----                           -----
+targetgroup-name               my-targets
+resources                      {targetgroup-name, targetgroup-id}
+region                         us-east-1
+resourcedetail                 targetgroup/my-targets/73e2d6bc24d8a067
+resourcetype                   targetgroup
+service                        elasticloadbalancing
+targetgroup-id                 73e2d6bc24d8a067
+accountid                      123456789012
+partition                      aws
+
+#S3 Bucket ARN
+Get-AWSWindowsHelpersARNDetail -arn "arn:aws:s3:::my_corporate_bucket/exampleobject.png"
+
+Name                           Value
+----                           -----
+region
+resourcedetail                 my_corporate_bucket/exampleobject.png
+service                        s3
+resource                       my_corporate_bucket
+accountid
+partition                      aws
+```
+
 # Authors
 
 - Sam Martin (samjackmartin@gmail.com)
-- Oliver Li (oliverli@hotmail.co.uk)
+- Oliver Li (oliver.1i@outlook.com)
 - Bindu Massey (bindu.massey@hotmail.co.uk)
