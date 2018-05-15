@@ -1,4 +1,4 @@
-# AWS Windows Helpers [![Build status](https://ci.appveyor.com/api/projects/status/1fc07ur3jd49k5cr/branch/master?svg=true)](https://ci.appveyor.com/project/Sam-Martin/awswindowshelpers/branch/master) [![PowerShell Gallery](https://img.shields.io/powershellgallery/v/AWSWindowsHelpers.svg)]() [![PowerShell Gallery](https://img.shields.io/powershellgallery/dt/AWSWindowsHelpers.svg)]()
+# AWS Windows Helpers [![Build status](https://ci.appveyor.com/api/projects/status/1fc07ur3jd49k5cr/branch/master?svg=true)](https://ci.appveyor.com/project/Sam-Martin/awswindowshelpers/branch/master) [![PowerShell Gallery](https://img.shields.io/powershellgallery/v/AWSWindowsHelpers.svg)](https://www.powershellgallery.com/packages/AWSWindowsHelpers/) [![PowerShell Gallery](https://img.shields.io/powershellgallery/dt/AWSWindowsHelpers.svg)](https://www.powershellgallery.com/packages/AWSWindowsHelpers/)
 
 A series of cmdlets that sit on top of the AWS PowerShell cmdlets to help with common AWS related tasks.
 These cmdlets have been created based primarily on requirements I (Sam Martin) have encountered while working with AWS, and are not intended to cover any specific set of scenarios beyond what I have added.
@@ -11,7 +11,7 @@ Depends upon the [AWSTestHelper](https://github.com/Sam-Martin/AWSTestHelper) mo
 # Usage
 You can install from the [PowerShell Gallery](https://www.powershellgallery.com/packages/AWSWindowsHelpers/) using the following command.
 
-```
+```PowerShell
 Install-Module -Name AWSWindowsHelpers
 ```
 
@@ -41,7 +41,7 @@ The below example performs the following actions:
  10. Swaps security groups between the new and old instances (black holing the old instance) (`Switch-AWSHelperInstanceSecurityGroups`)
  11. Swaps the new instance with the old instance in ELB and ELBv2 loadbalancers (`Switch-AWSHelperInstanceInLoadBalancers`)
 
-```
+```PowerShell
 Import-Module AWSWindowsHelpers
 Import-Module AWSTestHelper
 
@@ -68,7 +68,7 @@ Switch-AWSHelperInstanceInLoadBalancers -CurrentInstanceID $CurrentInstanceID -R
 # KMS Encryption and Decryption
 The cmdlets `Invoke-AWSWindowsHelperEncryptKMSPlaintext` and `Invoke-AWSWindowsHelperDecryptKMSPlaintext` allow you to encrypt and decrypt strings using KMS easily.
 
-```
+```powershell
 $encrypted = Invoke-AWSWindowsHelperEncryptKMSPlaintext -KeyID 347d96af-ea90-456d-9ca7-edecdbb46c42 -PlaintextString "hello!" -Region us-east-1
 Invoke-AWSWindowsHelperDecryptKMSPlaintext -Base64Secret $encrypted -Region us-east-1
 ```
@@ -79,7 +79,7 @@ These cmdlets make working with Route53 a bit easier in powershell.
 
 ## Set-AWSWindowsHelpersR53RecordSet
 
-```
+```powershell
 Set-AWSWindowsHelpersR53RecordSet -HostedZoneID Z9MTZXMHP863H -RecordName testsam2017.example.com. -RecordValue "google.com" -RecordType CNAME -Verbose
 
 # Set a "A" Record with an Alias Target
@@ -91,7 +91,7 @@ Set-AWSWindowsHelpersR53RecordSet -HostedZoneID Z9MTZXMHP863H -RecordName testsa
 
 ## Get-AWSWindowsHelperALBTraffic
 
-```
+```PowerShell
 Get-AWSWindowsHelperALBTraffic -AWSRegion eu-west-1 -ALBName app/LoadB-3M8KJGY58BE5/059338ed989e015 -StartTime (Get-Date).AddMonths(-1) -EndTime (Get-Date)
 ```
 
@@ -99,7 +99,7 @@ Get-AWSWindowsHelperALBTraffic -AWSRegion eu-west-1 -ALBName app/LoadB-3M8KJGY58
 
 Replaces a specific SSL certificate on all ALB and ELB load balancers for a specified region. If a ACM certificate is specified in either the original or replacement parameter ARN then the region is inferred from the ARN. If only IAM certificates ARNs are supplied a region must be given. 
 
-```
+```PowerShell
 Update-AWSWindowsHelpersLoadBalancerCertificate -originalCertARN "arn:aws:iam::123456789012:server-certificate/2017_wild_example_com" -replacementCertARN "arn:aws:acm:us-west-2:123456789012:certificate/0e460187-a4b4-452f-a88b-c1d17dfaf749"
 ```
 
@@ -109,7 +109,7 @@ Update-AWSWindowsHelpersLoadBalancerCertificate -originalCertARN "arn:aws:iam::1
 
 Converts a hashtable to the Parameter data type expected by the parameter "Parameter" of the New-CFNStack cmdlet. The UsePreviousValue property is set to true for values processed by this cmdlet.
 
-```powershell
+```PowerShell
 $CFNStackParameters = @{ 
 	"AMILookupStackName" = "aws-amilookup-stack" 
 	"InstanceType" = "t2.micro"
